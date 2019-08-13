@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'toggle',
   templateUrl: './toggle.component.html',
-  styleUrls: ['./toggle.component.css']
+  styleUrls: ['./toggle.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToggleComponent implements OnInit {
   @Input() on: boolean;
