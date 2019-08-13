@@ -1,21 +1,32 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ContentChild, AfterContentInit, ChangeDetectorRef } from '@angular/core';
+import { ToggleOnComponent } from './toggle.on.component';
+import { ToggleOffComponent } from './toggle.off.component';
+import { ToggleButtonComponent } from './toggle.button.component';
 
 @Component({
   selector: 'toggle',
-  templateUrl: './toggle.component.html',
-  styleUrls: ['./toggle.component.css'],
+  template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToggleComponent implements OnInit {
+export class ToggleComponent implements OnInit, AfterContentInit {
   @Input() on: boolean;
   @Output() toggled: EventEmitter<boolean> = new EventEmitter();
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {}
 
-  onClick() {
-    this.on = !this.on;
-    this.toggled.emit(this.on);
+  ngAfterContentInit() {
+    this.toggleButton.toggled.subscribe(on => {
+      this.on = on;
+      this.toggled.emit(on);
+      this.toggleOn.on = on;
+      this.toggleOff.on = on;
+      //this.cdr.detectChanges();
+    });
   }
+
+  @ContentChild(ToggleOnComponent, { static: true }) toggleOn: ToggleOnComponent;
+  @ContentChild(ToggleOffComponent, { static: true }) toggleOff: ToggleOffComponent;
+  @ContentChild(ToggleButtonComponent, { static: true }) toggleButton: ToggleButtonComponent;
 }

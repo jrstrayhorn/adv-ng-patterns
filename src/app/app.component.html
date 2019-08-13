@@ -1,1 +1,13 @@
-<toggle [on]="true" (toggled)="showMessage($event)"></toggle>
+<!-- Right now we don't have any contorl over what's actually displayed inside of the toggle component
+     try to remedy that using pattern called compound components
+    where multiple components work together to give the parent component more control over how the whole system works
+    -->
+<toggle (toggled)="showMessage($event)">
+  <b>Custom HTML from Parent</b>
+  <toggle-button></toggle-button>
+  <!-- show switch -->
+  <toggle-on>On</toggle-on>
+  <!-- display message wehen on-->
+  <toggle-off>Off</toggle-off>
+  <!-- display message when off-->
+</toggle>
